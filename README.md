@@ -1,56 +1,132 @@
-# Welcome to your Expo app 👋
+# Kelompok
+Nama :
+1. Nyoman Bagus Adimas Pranata (240040027)
+2. I Nyoman Pande Guna Darma (240040156)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# BALORA
 
-## Get started
+BALORA merupakan aplikasi mobile panduan wisata Bali yang dirancang untuk membantu pengguna menemukan destinasi wisata, memperoleh informasi tempat wisata, dan merencanakan kunjungan dengan lebih mudah.
 
-1. Install dependencies
+Aplikasi ini menyediakan informasi destinasi berdasarkan kategori, pencarian tempat wisata, rekomendasi destinasi, fitur favorit, serta informasi detail mengenai destinasi yang dipilih.
 
-   ```bash
-   npm install
-   ```
+## Fitur Aplikasi
 
-2. Start the app
+- **Home** – Menampilkan halaman utama, destinasi populer, dan rekomendasi wisata.
+- **Search Destinations** – Mencari destinasi wisata berdasarkan nama.
+- **Category Filter** – Memfilter destinasi berdasarkan kategori wisata.
+- **Explore** – Menjelajahi daftar destinasi wisata di Bali.
+- **Favorites** – Menyimpan destinasi wisata yang disukai.
+- **Destination Details** – Menampilkan informasi detail destinasi, lokasi, rating, deskripsi, dan tips berkunjung.
+- **Photo Gallery** – Melihat foto destinasi
+- **Google Maps** – Membuka lokasi destinasi melalui Google Maps.
 
-   ```bash
-   npx expo start
-   ```
+## Teknologi yang Digunakan
 
-In the output, you'll find options to open the app in a
+| Teknologi | Kegunaan |
+|---|---|
+| React Native | Pengembangan aplikasi mobile |
+| Expo | Development dan build aplikasi |
+| TypeScript | Penulisan kode dengan tipe data |
+| Expo Router | Navigasi antarhalaman |
+| Expo Image | Menampilkan gambar destinasi |
+| Ionicons | Icon aplikasi |
+| AsyncStorage | Penyimpanan data lokal |
+| Google Fonts – Poppins | Tipografi aplikasi |
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Instalasi dan Menjalankan Project
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Clone Repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/BagusAdimas/BALORA.git
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+### 2. Masuk ke Folder Project
 
-### Other setup steps
+```bash
+cd BALORA
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 3. Install Dependencies
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 4. Jalankan Aplikasi
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+```
 
-## Join the community
+### 5. Buka Aplikasi
 
-Join our community of developers creating universal apps.
+Setelah development server berjalan:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Scan QR Code menggunakan Expo Go yang kompatibel dengan SDK project.
+- Jalankan melalui Android Emulator.
+- Gunakan opsi web jika ingin menjalankan versi web.
+
+## Struktur Project
+
+```text
+BALORA/
+│   
+├───app
+│   │   _layout.tsx
+│   │   
+│   ├───(tabs)
+│   │       explore.tsx
+│   │       favorit.tsx
+│   │       index.tsx
+│   │       profil.tsx
+│   │       _layout.tsx
+│   │       
+│   └───detail
+│           [id].tsx
+│           
+├───components
+│   │   animated-icon.module.css
+│   │   animated-icon.tsx
+│   │   animated-icon.web.tsx
+│   │   app-tabs.tsx
+│   │   app-tabs.web.tsx
+│   │   destination-image.tsx
+│   │   external-link.tsx
+│   │   hint-row.tsx
+│   │   themed-text.tsx
+│   │   themed-view.tsx
+│   │   web-badge.tsx
+│   │   
+│   └───ui
+│      collapsible.tsx
+│           
+├───constants
+│       balora-theme.ts
+│       theme.ts
+│       
+├───context
+│       favorites-context.tsx
+│       
+├───data
+│       destinations.ts
+│       
+└───hooks
+        use-color-scheme.ts
+        use-color-scheme.web.ts
+        use-theme.ts
+```
+
+## Tujuan Aplikasi
+
+BALORA dikembangkan sebagai aplikasi panduan wisata digital yang dapat membantu wisatawan memperoleh informasi mengenai destinasi wisata di Bali. Dengan fitur pencarian, kategori, rekomendasi, favorit, dan informasi detail, pengguna diharapkan dapat menemukan destinasi wisata sesuai kebutuhan dan minat mereka.
+
+## Pengembangan
+
+Project ini dikembangkan menggunakan React Native dan Expo dengan TypeScript. Pengembangan dilakukan secara kolaboratif menggunakan Git dan GitHub sebagai version control dan repository project.
+
+## Developer
+
+**BALORA – Bali Destination Tourist Application**
+
+Dikembangkan sebagai project aplikasi mobile.
