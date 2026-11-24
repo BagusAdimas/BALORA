@@ -16,7 +16,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import { DestinationImage } from "@/components/destination-image";
 import { COLORS } from "@/constants/balora-theme";
 import { useFavorites } from "@/context/favorites-context";
 import { DESTINATIONS, Destination } from "@/data/destinations";
@@ -104,8 +104,8 @@ export default function FavoritScreen() {
             }
           >
             <View style={[styles.cardImage, { backgroundColor: item.tint }]}>
-              <Ionicons name={item.icon} size={32} color={COLORS.primary} />
-            </View>
+                <DestinationImage item={item} />
+              </View>
             <View style={styles.flex}>
               <Text style={styles.cardTitle} numberOfLines={1}>
                 {item.name}
@@ -178,9 +178,8 @@ const styles = StyleSheet.create({
     width: 76,
     height: 76,
     borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    overflow: "hidden",
+  },  
   cardTitle: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 15,

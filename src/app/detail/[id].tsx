@@ -6,7 +6,9 @@ import {
   useFonts,
 } from "@expo-google-fonts/poppins";
 import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";                     
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from "react";                       
 import {
   Linking,
   Pressable,
@@ -14,6 +16,9 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,                                   
+  type NativeScrollEvent,                                
+  type NativeSyntheticEvent,                             
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -54,6 +59,8 @@ export default function DetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { width } = useWindowDimensions();
+  const [page, setPage] = useState(0);
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -78,6 +85,13 @@ export default function DetailScreen() {
     );
   }
 
+  const photos =
+  item.gallery && item.gallery.length > 0 ? item.gallery : [item.image];
+
+  const onPageScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setPage(Math.round(e.nativeEvent.contentOffset.x / width));
+  };
+
   const liked = isFavorite(item.id);
   const tips = TIPS[item.category] ?? [];
 
@@ -93,25 +107,60 @@ export default function DetailScreen() {
         contentContainerStyle={{ paddingBottom: 130 }}
       >
         {/* Hero */}
-        <View style={[styles.hero, { backgroundColor: item.tint }]}>
-          <Ionicons name={item.icon} size={96} color={COLORS.primary} />
-          <Pressable
-            style={[styles.roundButton, { top: insets.top + 8, left: 20 }]}
-            onPress={() => router.back()}
-          >
-            <Ionicons name="arrow-back" size={22} color={COLORS.primary} />
-          </Pressable>
-          <Pressable
-            style={[styles.roundButton, { top: insets.top + 8, right: 20 }]}
-            onPress={() => toggleFavorite(item.id)}
-          >
-            <Ionicons
-              name={liked ? "heart" : "heart-outline"}
-              size={22}
-              color={COLORS.accent}
-            />
-          </Pressable>
-        </View>
+          <View style={[styles.hero, { backgroundColor: item.tint }]}>
+            {/* Carousel Foto */}
+            <ScrollView
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              onScroll={onPageScroll}
+              scrollEventThrottle={16}
+              style={StyleSheet.absoluteFill}
+            >
+              {photos.map((photo, i) => (
+                <Image
+                  key={i}
+                  source={photo}
+                  style={{ width, height: 300 }}
+                  contentFit="cover"
+                  transition={200}
+                  accessibilityLabel={`Foto ${item.name} ${i + 1} dari ${photos.length}`}
+                />
+              ))}
+            </ScrollView>
+
+            {/* Indikator Foto */}
+            {photos.length > 1 && (
+              <View style={styles.dots} pointerEvents="none">
+                {photos.map((_, i) => (
+                  <View
+                    key={i}
+                    style={[styles.dot, i === page && styles.dotActive]}
+                  />
+                ))}
+              </View>
+            )}
+
+            {/* Tombol Kembali */}
+            <Pressable
+              style={[styles.roundButton, { top: insets.top + 8, left: 20 }]}
+              onPress={() => router.back()}
+            >
+              <Ionicons name="arrow-back" size={22} color={COLORS.primary} />
+            </Pressable>
+
+            {/* Tombol Favorit */}
+            <Pressable
+              style={[styles.roundButton, { top: insets.top + 8, right: 20 }]}
+              onPress={() => toggleFavorite(item.id)}
+            >
+              <Ionicons
+                name={liked ? "heart" : "heart-outline"}
+                size={22}
+                color={COLORS.accent}
+              />
+            </Pressable>
+          </View>
 
         {/* Konten */}
         <View style={styles.sheet}>
@@ -189,7 +238,32 @@ const styles = StyleSheet.create({
     color: COLORS.muted,
   },
 
-  hero: { height: 300, alignItems: "center", justifyContent: "center" },
+  hero: {
+  height: 300,
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+},
+
+dots: {
+  position: "absolute",
+  bottom: 15,
+  alignSelf: "center",
+  flexDirection: "row",
+  gap: 8,
+},
+
+dot: {
+  width: 8,
+  height: 8,
+  borderRadius: 4,
+  backgroundColor: "rgba(255,255,255,0.5)",
+},
+
+dotActive: {
+  backgroundColor: "#FFFFFF",
+  width: 20,
+},
   roundButton: {
     position: "absolute",
     width: 42,

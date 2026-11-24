@@ -21,6 +21,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { COLORS } from "@/constants/balora-theme";
+import { DestinationImage } from "@/components/destination-image";
 import { CATEGORIES, DESTINATIONS, Destination } from "@/data/destinations";
 type SortBy = "rating" | "name";
 type ViewMode = "grid" | "list";
@@ -72,7 +73,7 @@ export default function ExploreScreen() {
       onPress={() => openDetail(item.id)}
     >
       <View style={[styles.gridImage, { backgroundColor: item.tint }]}>
-        <Ionicons name={item.icon} size={44} color={COLORS.primary} />
+        <DestinationImage item={item} />
         <Pressable
           style={styles.heartButton}
           onPress={() => toggleFavorite(item.id)}
@@ -108,7 +109,7 @@ export default function ExploreScreen() {
   const renderList = (item: Destination) => (
     <Pressable style={styles.listCard} onPress={() => openDetail(item.id)}>
       <View style={[styles.listImage, { backgroundColor: item.tint }]}>
-        <Ionicons name={item.icon} size={32} color={COLORS.primary} />
+        <DestinationImage item={item} />
       </View>
       <View style={styles.flex}>
         <Text style={styles.cardTitle} numberOfLines={1}>
@@ -395,7 +396,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card,
     overflow: "hidden",
   },
-  gridImage: { height: 120, alignItems: "center", justifyContent: "center" },
+  gridImage: { height: 120, overflow: "hidden" },
   heartButton: {
     position: "absolute",
     top: 10,
@@ -454,8 +455,7 @@ const styles = StyleSheet.create({
     width: 76,
     height: 76,
     borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    overflow: "hidden",
   },
   listDesc: {
     fontFamily: "Poppins_400Regular",

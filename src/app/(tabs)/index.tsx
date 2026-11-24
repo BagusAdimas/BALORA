@@ -1,4 +1,7 @@
+import { DestinationImage } from "@/components/destination-image";
+import { COLORS } from "@/constants/balora-theme";
 import { useFavorites } from "@/context/favorites-context";
+import { CATEGORIES, DESTINATIONS } from "@/data/destinations";
 import {
   Poppins_400Regular,
   Poppins_500Medium,
@@ -21,113 +24,6 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// ---------- Tema ----------
-const COLORS = {
-  primary: "#2D5A3D", // Forest Green
-  secondary: "#F5EFE0", // Cream / Beige
-  accent: "#C8643C", // Terracotta
-  text: "#1F2A24",
-  muted: "#7A8580",
-  white: "#FFFFFF",
-  card: "#FBF8F0",
-};
-
-type IconName = React.ComponentProps<typeof Ionicons>["name"];
-
-type Destination = {
-  id: string;
-  name: string;
-  location: string;
-  category: string;
-  rating: number;
-  icon: IconName;
-  tint: string;
-};
-
-// ---------- Data dummy ----------
-const CATEGORIES: { label: string; icon: IconName }[] = [
-  { label: "Semua", icon: "apps-outline" },
-  { label: "Pantai", icon: "water-outline" },
-  { label: "Pura", icon: "business-outline" },
-  { label: "Alam", icon: "leaf-outline" },
-  { label: "Budaya", icon: "color-palette-outline" },
-  { label: "Kuliner", icon: "restaurant-outline" },
-];
-
-const DESTINATIONS: Destination[] = [
-  {
-    id: "1",
-    name: "Tanah Lot",
-    location: "Tabanan",
-    category: "Pura",
-    rating: 4.7,
-    icon: "business-outline",
-    tint: "#D9C9A8",
-  },
-  {
-    id: "2",
-    name: "Pantai Kuta",
-    location: "Badung",
-    category: "Pantai",
-    rating: 4.5,
-    icon: "water-outline",
-    tint: "#BFD8D2",
-  },
-  {
-    id: "3",
-    name: "Tegallalang",
-    location: "Gianyar",
-    category: "Alam",
-    rating: 4.8,
-    icon: "leaf-outline",
-    tint: "#C5D8B8",
-  },
-  {
-    id: "4",
-    name: "Uluwatu",
-    location: "Badung",
-    category: "Pura",
-    rating: 4.8,
-    icon: "business-outline",
-    tint: "#E3C3AE",
-  },
-  {
-    id: "5",
-    name: "Ubud Art Market",
-    location: "Gianyar",
-    category: "Budaya",
-    rating: 4.4,
-    icon: "color-palette-outline",
-    tint: "#E8D3B0",
-  },
-  {
-    id: "6",
-    name: "Babi Guling Ibu Oka",
-    location: "Ubud",
-    category: "Kuliner",
-    rating: 4.6,
-    icon: "restaurant-outline",
-    tint: "#EBC9B8",
-  },
-  {
-    id: "7",
-    name: "Nusa Penida",
-    location: "Klungkung",
-    category: "Pantai",
-    rating: 4.9,
-    icon: "water-outline",
-    tint: "#B5D3CC",
-  },
-  {
-    id: "8",
-    name: "Air Terjun Sekumpul",
-    location: "Buleleng",
-    category: "Alam",
-    rating: 4.8,
-    icon: "leaf-outline",
-    tint: "#BCD4B2",
-  },
-];
 
 // ---------- Halaman Beranda ----------
 export default function HomeScreen() {
@@ -147,10 +43,14 @@ export default function HomeScreen() {
   if (!fontsLoaded) return null;
 
   const filtered = DESTINATIONS.filter((d) => {
-    const matchCategory = category === "Semua" || d.category === category;
-    const matchQuery = d.name.toLowerCase().includes(query.toLowerCase());
-    return matchCategory && matchQuery;
-  });
+  const matchCategory =
+    category === "Semua" ||
+    d.category.trim().toLowerCase() === category.trim().toLowerCase();
+
+  const matchQuery = d.name.toLowerCase().includes(query.toLowerCase());
+
+  return matchCategory && matchQuery;
+});
 
   const popular = filtered.slice(0, 5);
   const recommended = filtered.slice(5);
@@ -270,11 +170,10 @@ export default function HomeScreen() {
                 })
               }
             >
-              {/* Ganti View ini dengan <ImageBackground> jika sudah punya foto */}
               <View
                 style={[styles.popularImage, { backgroundColor: item.tint }]}
               >
-                <Ionicons name={item.icon} size={56} color={COLORS.primary} />
+                <DestinationImage item={item} />
                 <Pressable
                   style={styles.heartButton}
                   onPress={() => toggleFavorite(item.id)}
@@ -328,7 +227,7 @@ export default function HomeScreen() {
                 <View
                   style={[styles.recommendIcon, { backgroundColor: item.tint }]}
                 >
-                  <Ionicons name={item.icon} size={28} color={COLORS.primary} />
+                  <DestinationImage item={item} />
                 </View>
                 <View style={styles.flex}>
                   <Text style={styles.cardTitle}>{item.name}</Text>
@@ -506,10 +405,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   popularImage: {
-    height: 150,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  height: 150,
+  overflow: "hidden", 
+},
   heartButton: {
     position: "absolute",
     top: 12,
@@ -550,10 +448,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.card,
   },
   recommendIcon: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
+  width: 56,
+  height: 56,
+  borderRadius: 16,
+  overflow: "hidden",  
   },
 });
